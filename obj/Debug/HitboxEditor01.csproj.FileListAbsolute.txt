@@ -1,0 +1,10 @@
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\bin\Debug\HitboxEditor01.exe.config
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\bin\Debug\HitboxEditor01.exe
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\bin\Debug\HitboxEditor01.pdb
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.csprojResolveAssemblyReference.cache
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.Form1.resources
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.Properties.Resources.resources
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.csproj.GenerateResource.Cache
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.exe
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.pdb
+c:\users\shephard2\documents\visual studio 2015\Projects\HitboxEditor01\HitboxEditor01\obj\Debug\HitboxEditor01.Editor.resources
