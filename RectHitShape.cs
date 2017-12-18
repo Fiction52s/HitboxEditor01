@@ -17,9 +17,26 @@ namespace HitboxEditor01
             points = new PointF[4];
         }
 
+        public RectHitShape(RectHitShape rhs)
+            : base(Shape.SH_CIRCLE)
+        {
+            points = new PointF[4];
+            centerPos = rhs.centerPos;
+            width = rhs.width;
+            height = rhs.height;
+            angle = rhs.angle;
+            UpdateRect();
+        }
+
         public override void Draw(Graphics g, Brush b)
         {
             g.FillPolygon(b, points);
+        }
+
+        public override HitShape Copy()
+        {
+            RectHitShape rhs = new RectHitShape(this);
+            return rhs;
         }
 
         public override void Save(StreamWriter sw, Point gCenter)
@@ -102,6 +119,15 @@ namespace HitboxEditor01
         public PointF GetPoint(int index)
         {
             return points[index];
+        }
+
+        public override bool IsSame(HitShape hShape)
+        {
+            if (hShape.sh != sh)
+                return false;
+
+            RectHitShape rhs = hShape as RectHitShape;
+            return rhs.width == width && rhs.height == height && rhs.angle == angle && rhs.centerPos.X == centerPos.X && rhs.centerPos.Y == centerPos.Y;
         }
 
 

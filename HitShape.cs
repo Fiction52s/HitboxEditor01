@@ -57,8 +57,10 @@ namespace HitboxEditor01
 
             return null;
         }
-        
-        Shape sh;
+        abstract public HitShape Copy();
+        abstract public bool IsSame(HitShape hShape);
+
+        public Shape sh;
        // HitType hitType;
     }
 }

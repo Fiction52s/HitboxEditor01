@@ -36,6 +36,35 @@ namespace HitboxEditor01
         Point centerPos;
         string tilesetName;
         bool move;
+        List<HitShape> copiedShapes;
+
+        void PasteShapes()
+        {
+            List<HitShape> hList = hitboxLists[currFrame - minFrame];
+            bool paste;
+            foreach( HitShape hShape in copiedShapes )
+            {
+                paste = true;
+                foreach (HitShape tShape in hList)
+                {
+                    if(hShape.IsSame(tShape))
+                    {
+                        paste = false;
+                        break;
+                    }
+                }
+
+                if( paste )
+                {
+                    hList.Add(hShape.Copy());
+                }
+            }
+        }
+
+        void CopyShapes()
+        {
+            copiedShapes = hitboxLists[currFrame - minFrame];
+        }
 
         public Editor(List<Tuple<int, List<HitShape>>> loadedHitboxes, string p_tilesetName, Form1 p_parentForm, int startTile, int maxTile, int tw, int th  )
         {
@@ -45,7 +74,8 @@ namespace HitboxEditor01
             centerPos.Y = pictureBox.Height / 2;//th / 2;
             tilesetName = p_tilesetName;
             currHitShape = null;
-            state = State.S_DRAWRECT1;
+            //state = State.S_DRAWRECT1;
+            state = State.S_DRAWCIRCLE;
             parentForm = p_parentForm;
             minFrame = startTile;
             maxFrame = maxTile;
@@ -63,7 +93,6 @@ namespace HitboxEditor01
             }
             LoadHitboxes(loadedHitboxes);
         }
-
 
         private void LoadHitboxes(List<Tuple<int, List<HitShape>>> loadedHitboxes)
         {
@@ -174,7 +203,45 @@ namespace HitboxEditor01
                         move = true;
                         break;
                     }
-                    
+                case Keys.C:
+                    {
+                        if( e.Control )
+                        {
+                            CopyShapes();
+                        }
+                        break;
+                    }
+                case Keys.V:
+                    {
+                        if (e.Control)
+                        {
+                            PasteShapes();
+                        }
+                        break;
+                    }
+                case Keys.Q:
+                    {
+                        state = State.S_DRAWCIRCLE;
+                        break;
+                    }
+                case Keys.R:
+                    {
+                        state = State.S_DRAWRECT1; 
+                        break;
+                    }
+                    //case Keys.H:
+                    //    {
+                    //        List<HitShape> hList = hitboxLists[currFrame - minFrame];
+                    //        foreach (HitShape ht in hList.Reverse<HitShape>())
+                    //        {
+                    //            if (ht.HasPoint(mPos))
+                    //            {
+                    //                hList.Remove(ht);
+                    //            }
+                    //            //if contains mouse position, then remove the hitbox
+                    //        }
+                    //        break;
+                    //    }
             }
 
             pictureBox.Image = parentForm.ims[currFrame];
@@ -182,7 +249,6 @@ namespace HitboxEditor01
 
             currFrameLabel.Text = (currFrame - minFrame).ToString() + " / " + (maxFrame - minFrame).ToString();
         }
-
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
@@ -214,6 +280,8 @@ namespace HitboxEditor01
                 if( currHitShape != null )
                 {
                     currHitShape = null;
+                    if (state == State.S_DRAWRECT2)
+                        state = State.S_DRAWRECT1;
                 }
                 else
                 {
@@ -233,7 +301,6 @@ namespace HitboxEditor01
 
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            //Point mPos = new Point(e.X, e.Y);
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -249,10 +316,6 @@ namespace HitboxEditor01
                             {
                                 CircleHitShape chs = currHitShape as CircleHitShape;
                                 chs.centerPos = mPos;
-                                //Point diff = new Point(mPos.X - chs.centerPos.X, mPos.Y - chs.centerPos.Y);
-                                //double length = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
-                                //chs.radius = Math.Max((int)length, minCircleRadius);
-                                //pictureBox.Refresh();
                             }
                             break;
                         }
@@ -421,6 +484,7 @@ namespace HitboxEditor01
                     }
                 case MouseButtons.Right:
                     {
+                        
                         break;
                     }
                     
