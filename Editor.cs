@@ -186,29 +186,54 @@ namespace HitboxEditor01
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            switch (state)
+            Point mPos = new Point(e.X, e.Y);
+            if (e.Button == MouseButtons.Left)
             {
-                case State.S_DRAWCIRCLE:
+                switch (state)
+                {
+                    case State.S_DRAWCIRCLE:
+                        {
+                            currHitShape = new CircleHitShape();
+                            CircleHitShape chs = (CircleHitShape)currHitShape;
+                            chs.centerPos.X = e.X;
+                            chs.centerPos.Y = e.Y;
+                            chs.radius = minCircleRadius;
+                            break;
+                        }
+                    case State.S_DRAWRECT1:
+                        {
+                            currHitShape = new RectHitShape();
+                            RectHitShape rhs = (RectHitShape)currHitShape;
+                            rhs.SetRect(mPos, minCircleRadius, minCircleRadius, 0);
+                            break;
+                        }
+                }
+            }
+            else if( e.Button == MouseButtons.Right )
+            {
+                if( currHitShape != null )
+                {
+                    currHitShape = null;
+                }
+                else
+                {
+                    List<HitShape> hList = hitboxLists[currFrame - minFrame];
+                    foreach (HitShape ht in hList.Reverse<HitShape>() )
                     {
-                        currHitShape = new CircleHitShape();
-                        CircleHitShape chs = (CircleHitShape)currHitShape;
-                        chs.centerPos.X = e.X;
-                        chs.centerPos.Y = e.Y;
-                        chs.radius = minCircleRadius;
-                        break;
+                        if( ht.HasPoint(mPos))
+                        {
+                            hList.Remove(ht);
+                        }
+                        //if contains mouse position, then remove the hitbox
                     }
-                case State.S_DRAWRECT1:
-                    {
-                        currHitShape = new RectHitShape();
-                        RectHitShape rhs = (RectHitShape)currHitShape;
-                        rhs.SetRect(new Point(e.X, e.Y), minCircleRadius, minCircleRadius, 0);
-                        break;
-                    }
+                    pictureBox.Refresh();
+                }
             }
         }
 
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
-        {   
+        {
+            //Point mPos = new Point(e.X, e.Y);
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -247,95 +272,92 @@ namespace HitboxEditor01
                 pictureBox.Refresh();
             }
             else
-            switch (state)
-            {
-                case State.S_DRAWCIRCLE:
-                    {
-                        if (currHitShape != null)
+                switch (state)
+                {
+                    case State.S_DRAWCIRCLE:
                         {
-                            CircleHitShape chs = currHitShape as CircleHitShape;
-                            Point mPos = new Point(e.X, e.Y);
-                            Point diff = new Point(mPos.X - chs.centerPos.X, mPos.Y - chs.centerPos.Y);
-                            double length = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
-                            chs.radius = Math.Max((int)length, minCircleRadius);
-                            pictureBox.Refresh();
+                            if (currHitShape != null)
+                            {
+                                CircleHitShape chs = currHitShape as CircleHitShape;
+                                Point mPos = new Point(e.X, e.Y);
+                                Point diff = new Point(mPos.X - chs.centerPos.X, mPos.Y - chs.centerPos.Y);
+                                double length = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
+                                chs.radius = Math.Max((int)length, minCircleRadius);
+                                pictureBox.Refresh();
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case State.S_DRAWRECT1:
-                    {
-                        if (currHitShape != null)
+                    case State.S_DRAWRECT1:
                         {
-                            RectHitShape rhs = currHitShape as RectHitShape;
-                            Point mPos = new Point(e.X, e.Y);
-                            Point diff = new Point(mPos.X - rhs.centerPos.X, mPos.Y - rhs.centerPos.Y);
-                            double length = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
-                            
-                            float max = Math.Max((int)length, minCircleRadius);
+                            if (currHitShape != null)
+                            {
+                                RectHitShape rhs = currHitShape as RectHitShape;
+                                Point mPos = new Point(e.X, e.Y);
+                                Point diff = new Point(mPos.X - rhs.centerPos.X, mPos.Y - rhs.centerPos.Y);
+                                double length = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
 
-                            rhs.width = (int)max;
-                            rhs.height = minCircleRadius;//(int)max;
+                                float max = Math.Max((int)length, minCircleRadius);
 
-                            float xDiff = diff.X;
-                            float yDiff = diff.Y;
-                            int angle =  (int)(Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI);
-                            rhs.angle = angle;
+                                rhs.width = (int)max;
+                                rhs.height = minCircleRadius;//(int)max;
 
-                            rhs.UpdateRect();
-                            pictureBox.Refresh();
+                                float xDiff = diff.X;
+                                float yDiff = diff.Y;
+                                int angle = (int)(Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI);
+                                rhs.angle = angle;
+
+                                rhs.UpdateRect();
+                                pictureBox.Refresh();
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case State.S_DRAWRECT2:
-                    {
-                        //if (currHitShape != null)
-                        //{
-                        //    break;
-                        //}
-                        RectHitShape rhs = currHitShape as RectHitShape;
-                        PointF mPos = new PointF(e.X, e.Y);
-                        PointF diff = new PointF(mPos.X - rhs.centerPos.X, mPos.Y - rhs.centerPos.Y);
+                    case State.S_DRAWRECT2:
+                        {
+                            if (currHitShape != null)
+                            {
+                                RectHitShape rhs = currHitShape as RectHitShape;
+                                PointF mPos = new PointF(e.X, e.Y);
+                                PointF diff = new PointF(mPos.X - rhs.centerPos.X, mPos.Y - rhs.centerPos.Y);
 
-                        PointF p0 = rhs.GetPoint(0);
-                        PointF p1 = rhs.GetPoint(1);
-                        PointF p2 = rhs.GetPoint(2);
-                        PointF axisA = new PointF(p1.X - p0.X, p1.Y - p0.Y);
-                        PointF axisB = new PointF(p2.X - p1.X, p2.Y - p1.Y);
-                        Normalize(ref axisA);
-                        Normalize(ref axisB);
+                                PointF p0 = rhs.GetPoint(0);
+                                PointF p1 = rhs.GetPoint(1);
+                                PointF p2 = rhs.GetPoint(2);
+                                PointF axisA = new PointF(p1.X - p0.X, p1.Y - p0.Y);
+                                PointF axisB = new PointF(p2.X - p1.X, p2.Y - p1.Y);
+                                Normalize(ref axisA);
+                                Normalize(ref axisB);
 
-                        float d = Math.Abs(Dot(diff, axisA));
-                        float d1 = Math.Abs(Dot(diff, axisB));
+                                float d = Math.Abs(Dot(diff, axisA));
+                                float d1 = Math.Abs(Dot(diff, axisB));
 
-                        d = Math.Max(d, 10);
-                        d1 = Math.Max(d1, 10);
-                        //d = Math.Min(d, 400);
-                        //d1 = Math.Min(d1, 400);
+                                d = Math.Max(d, 10);
+                                d1 = Math.Max(d1, 10);
+                                //d = Math.Min(d, 400);
+                                //d1 = Math.Min(d1, 400);
 
-                        rhs.width = (int)d;
-                        rhs.height = (int)d1;
+                                rhs.width = (int)d;
+                                rhs.height = (int)d1;
 
 
-                        rhs.UpdateRect();
-                        pictureBox.Refresh();
-                        //float d = Dot( )
-
-                        break;
-                    }
-            }
+                                rhs.UpdateRect();
+                                pictureBox.Refresh();
+                            }
+                            break;
+                        }
+                }
         }
 
-        float Dot( PointF a, PointF b )
+        static public float Dot( PointF a, PointF b )
         {
             return a.X * b.X + a.Y * b.Y;
         }
 
-        float Length( PointF a )
+        static public float Length( PointF a )
         {
             return (float)Math.Sqrt(a.X * a.X + a.Y * a.Y);
         }
 
-        void Normalize( ref PointF a )
+        static public void Normalize( ref PointF a )
         {
             float len = Length(a);
             a.X /= len;
@@ -367,30 +389,43 @@ namespace HitboxEditor01
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            switch (state)
+            switch( e.Button )
             {
-                case State.S_DRAWRECT2:
+                case MouseButtons.Left:
                     {
-                        state = State.S_DRAWRECT1;
+                        switch (state)
+                        {
+                            case State.S_DRAWRECT2:
+                                {
+                                    state = State.S_DRAWRECT1;
 
-                        hitboxLists[currFrame - minFrame].Add(currHitShape);
-                        currHitShape = null;
-                        pictureBox.Refresh();
+                                    hitboxLists[currFrame - minFrame].Add(currHitShape);
+                                    currHitShape = null;
+                                    pictureBox.Refresh();
+                                    break;
+                                }
+                            case State.S_DRAWCIRCLE:
+                                {
+                                    hitboxLists[currFrame - minFrame].Add(currHitShape);
+                                    currHitShape = null;
+                                    pictureBox.Refresh();
+                                    break;
+                                }
+                            case State.S_DRAWRECT1:
+                                {
+                                    state = State.S_DRAWRECT2;
+                                    break;
+                                }
+                        }
                         break;
                     }
-                case State.S_DRAWCIRCLE:
+                case MouseButtons.Right:
                     {
-                        hitboxLists[currFrame - minFrame].Add(currHitShape);
-                        currHitShape = null;
-                        pictureBox.Refresh();
                         break;
                     }
-                case State.S_DRAWRECT1:
-                    {
-                        state = State.S_DRAWRECT2;
-                        break;
-                    }
+                    
             }
+            
         }
 
         

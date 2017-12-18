@@ -33,6 +33,13 @@ namespace HitboxEditor01
             sw.WriteLine(radius);
         }
 
+        public override bool HasPoint(PointF p)
+        {
+            PointF diff = new PointF(p.X - centerPos.X, p.Y - centerPos.Y);
+            float len = Editor.Length(diff);
+            return (len <= radius);
+        }
+
         public Point centerPos;
         public int radius;
         Rectangle drawRect;

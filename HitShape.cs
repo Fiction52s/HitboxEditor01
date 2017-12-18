@@ -30,6 +30,7 @@ namespace HitboxEditor01
 
         }
 
+        abstract public bool HasPoint(PointF p);
         abstract public void Draw( Graphics g, Brush b );
         abstract public void Save( StreamWriter sw, Point gCenter );
         static public HitShape Load(StreamReader sr, Point gCenter)

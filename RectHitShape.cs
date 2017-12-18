@@ -68,6 +68,32 @@ namespace HitboxEditor01
             }
         }
 
+        public override bool HasPoint(PointF p)
+        {
+            PointF p0 = GetPoint(0);
+            PointF p1 = GetPoint(1);
+            PointF p3 = GetPoint(3);
+            PointF axisA = new PointF(p1.X - p0.X, p1.Y - p0.Y);
+            PointF axisB = new PointF(p3.X - p0.X, p3.Y - p0.Y);
+            PointF oldAxisA = new PointF(axisA.X, axisA.Y);
+            PointF oldAxisB = new PointF(axisB.X, axisB.Y);
+            Editor.Normalize(ref axisA);
+            Editor.Normalize(ref axisB);
+
+            PointF diff = new PointF(p.X - p0.X, p.Y - p0.Y);
+
+            float dA = Editor.Dot(diff, axisA);
+            float dB = Editor.Dot(diff, axisB);
+
+            float axisALen = Editor.Length(oldAxisA);
+            float axisBLen = Editor.Length(oldAxisB);
+
+            bool aOkay = dA >= 0 && dA <= axisALen;
+            bool bOkay = dB >= 0 && dB <= axisBLen;
+
+            return aOkay && bOkay;
+        }
+
         float GetRadians(int degreeAngle)
         {
             return (degreeAngle / 180.0f) * (float)Math.PI;
