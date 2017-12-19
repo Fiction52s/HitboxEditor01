@@ -36,6 +36,7 @@ namespace HitboxEditor01
         static public HitShape Load(StreamReader sr, Point gCenter)
         {
             int shapeType = Convert.ToInt32(sr.ReadLine());
+
             Shape sha = (Shape)shapeType;
             switch (sha)
             {
@@ -48,9 +49,28 @@ namespace HitboxEditor01
                         CircleHitShape chs = new CircleHitShape();
                         chs.radius = radius;
                         chs.centerPos.X = centerX + gCenter.X;
-                        chs.centerPos.Y = centerY + gCenter.X;
+                        chs.centerPos.Y = centerY + gCenter.Y;
                         return chs;
 
+                        break;
+                    }
+                case Shape.SH_RECT:
+                    {
+
+                        int centerX = Convert.ToInt32(sr.ReadLine());
+                        int centerY = Convert.ToInt32(sr.ReadLine());
+
+                        centerX = centerX + gCenter.X;
+                        centerY = centerY + gCenter.Y;
+
+                        int width = Convert.ToInt32(sr.ReadLine());
+                        int height = Convert.ToInt32(sr.ReadLine());
+                        int angle = Convert.ToInt32(sr.ReadLine());
+
+                        RectHitShape rhs = new RectHitShape();
+                        rhs.SetRect(new Point(centerX, centerY), width, height, angle);
+
+                        return rhs;
                         break;
                     }
             }

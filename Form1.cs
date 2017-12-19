@@ -50,8 +50,9 @@ namespace HitboxEditor01
             int tw = Convert.ToInt32(tileWidthBox.Text);
             int th = Convert.ToInt32(tileHeightBox.Text);
 
-            gCenter.X = tw / 2;
-            gCenter.Y = th / 2;
+            //560x560 currently
+            gCenter.X = 560 / 2;//tw / 2;
+            gCenter.Y = 560 / 2;//th / 2;
 
             int numTilesX = im.Size.Width / tw;
             int numTilesY = im.Size.Height / th;
@@ -160,9 +161,8 @@ namespace HitboxEditor01
                         Tuple<int, List<HitShape>> t = new Tuple<int, List<HitShape>>(frameIndex, hList);
                         loadedHitboxes.Add(t);
                     }
-
-                    StartEditor();
                 }
+                StartEditor();
             }
         }
     }
