@@ -126,8 +126,15 @@ namespace HitboxEditor01
             if (hShape.sh != sh)
                 return false;
 
-            RectHitShape rhs = hShape as RectHitShape;
-            return rhs.width == width && rhs.height == height && rhs.angle == angle && rhs.centerPos.X == centerPos.X && rhs.centerPos.Y == centerPos.Y;
+            if (hShape is RectHitShape)
+            {
+                RectHitShape rhs = hShape as RectHitShape;
+                return rhs.width == width && rhs.height == height && rhs.angle == angle && rhs.centerPos.X == centerPos.X && rhs.centerPos.Y == centerPos.Y;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 

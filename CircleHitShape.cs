@@ -59,8 +59,16 @@ namespace HitboxEditor01
             if (hShape.sh != sh)
                 return false;
 
-            CircleHitShape chs = hShape as CircleHitShape;
-            return chs.radius == radius && chs.centerPos.X == centerPos.X && chs.centerPos.Y == centerPos.Y;
+            if( hShape is CircleHitShape )
+            {
+                CircleHitShape chs = hShape as CircleHitShape;
+                return chs.radius == radius && chs.centerPos.X == centerPos.X && chs.centerPos.Y == centerPos.Y;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         public Point centerPos;

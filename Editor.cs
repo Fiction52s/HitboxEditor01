@@ -85,7 +85,7 @@ namespace HitboxEditor01
             currFrameLabel.Text = (currFrame - startTile).ToString() + " / " + (maxTile - startTile).ToString();
             Color c = Color.FromArgb(80, 255, 0, 0);
             hitboxBrush = new System.Drawing.SolidBrush(c);
-            minCircleRadius = 10;
+            minCircleRadius = 2;
             hitboxLists = new List<HitShape>[(maxTile - startTile) + 1];
             for( int i = 0; i < hitboxLists.Length; ++i )
             {
@@ -393,8 +393,8 @@ namespace HitboxEditor01
                                 float d = Math.Abs(Dot(diff, axisA));
                                 float d1 = Math.Abs(Dot(diff, axisB));
 
-                                d = Math.Max(d, 10);
-                                d1 = Math.Max(d1, 10);
+                                d = Math.Max(d, minCircleRadius);
+                                d1 = Math.Max(d1, minCircleRadius);
                                 //d = Math.Min(d, 400);
                                 //d1 = Math.Min(d1, 400);
 
