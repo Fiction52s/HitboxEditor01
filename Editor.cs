@@ -80,7 +80,7 @@ namespace HitboxEditor01
             minFrame = startTile;
             maxFrame = maxTile;
             currFrame = minFrame;
-            pictureBox.Image = parentForm.ims[currFrame];
+            pictureBox.Image = parentForm.ims[currFrame - minFrame];
             pictureBox.Refresh();
             currFrameLabel.Text = (currFrame - startTile).ToString() + " / " + (maxTile - startTile).ToString();
             Color c = Color.FromArgb(80, 255, 0, 0);
@@ -132,7 +132,9 @@ namespace HitboxEditor01
                     //sw.WriteLine(nameLen);
                     sw.WriteLine(tilesetName);
 
-                    int numFrames = maxFrame - minFrame;
+                    int numFrames = (maxFrame - minFrame)+1;
+                    sw.WriteLine(minFrame);
+                    sw.WriteLine(numFrames);
 
                     int numPopulatedFrames = 0;
                     foreach( List<HitShape> hList in hitboxLists )
@@ -183,7 +185,7 @@ namespace HitboxEditor01
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    if (currFrame > 0)
+                    if (currFrame > minFrame)
                         --currFrame;
                     break;
                 case Keys.Right:
@@ -244,7 +246,7 @@ namespace HitboxEditor01
                     //    }
             }
 
-            pictureBox.Image = parentForm.ims[currFrame];
+            pictureBox.Image = parentForm.ims[currFrame - minFrame];
             pictureBox.Refresh();
 
             currFrameLabel.Text = (currFrame - minFrame).ToString() + " / " + (maxFrame - minFrame).ToString();

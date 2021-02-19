@@ -76,8 +76,6 @@ namespace HitboxEditor01
 
         private string currFileName;
         public Image[] ims;
-        
-       
 
         private List<Tuple<int,List<HitShape>>> loadedHitboxes;
         
@@ -99,13 +97,26 @@ namespace HitboxEditor01
 
 
             System.Drawing.Imaging.PixelFormat format = bm.PixelFormat;
-            for (int y = 0; y < numTilesY; ++y)
+            int i = 0;
+            bool done = false;
+            for (int y = 0; y < numTilesY && !done; ++y)
             {
                 for (int x = 0; x < numTilesX; ++x)
                 {
+                    i = (y * numTilesX + x) - startTile;
+                    if (i < 0)
+                        continue;
+
                     Rectangle subRect = new Rectangle(x * tw, y * th, tw, th);
                     Bitmap clone = bm.Clone(subRect, format);
-                    ims[y * numTilesX + x] = clone;
+                    ims[i] = clone;
+
+                    if (i == numTiles-1)
+                    {
+                        done = true;
+                        break;
+                    }
+
                 }
             }
 
@@ -144,6 +155,9 @@ namespace HitboxEditor01
                     currFileName = tilesetName;
 
                     LoadSpriteSheet(tilesetName);
+
+                    startIndexBox.Text = sr.ReadLine();
+                    numTilesBox.Text = sr.ReadLine();
 
                     int numPopulatedFrames = Convert.ToInt32(sr.ReadLine());
                     loadedHitboxes = new List<Tuple<int, List<HitShape>>>();
