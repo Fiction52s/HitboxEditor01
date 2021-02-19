@@ -307,7 +307,24 @@ namespace HitboxEditor01
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if( move )
+            Point localMousePos = new Point(e.X - pictureBox.Left, e.Y - pictureBox.Top);
+            if( localMousePos.X < 0 )
+            {
+                localMousePos.X = 0;
+            }
+            if( localMousePos.Y < 0 )
+            {
+                localMousePos.Y = 0;
+            }
+            labelMousePos.Text = "(" + localMousePos.X + ", " + localMousePos.Y + ")";
+
+
+
+            Point localOffset = new Point(localMousePos.X - pictureBox.Width / 2, localMousePos.Y - pictureBox.Height / 2);
+
+            labelCenterOffset.Text = "Offset from Center: (" + localOffset.X + ", " + localOffset.Y + ")";
+
+            if ( move )
             {
                 Point mPos = new Point(e.X, e.Y);
                 switch (state)

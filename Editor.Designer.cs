@@ -31,6 +31,8 @@
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.currFrameLabel = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.labelMousePos = new System.Windows.Forms.Label();
+            this.labelCenterOffset = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,11 +60,31 @@
             this.currFrameLabel.TabIndex = 1;
             this.currFrameLabel.Text = "-----";
             // 
+            // labelMousePos
+            // 
+            this.labelMousePos.AutoSize = true;
+            this.labelMousePos.Location = new System.Drawing.Point(13, 13);
+            this.labelMousePos.Name = "labelMousePos";
+            this.labelMousePos.Size = new System.Drawing.Size(29, 13);
+            this.labelMousePos.TabIndex = 2;
+            this.labelMousePos.Text = "(x, x)";
+            // 
+            // labelCenterOffset
+            // 
+            this.labelCenterOffset.AutoSize = true;
+            this.labelCenterOffset.Location = new System.Drawing.Point(12, 35);
+            this.labelCenterOffset.Name = "labelCenterOffset";
+            this.labelCenterOffset.Size = new System.Drawing.Size(29, 13);
+            this.labelCenterOffset.TabIndex = 3;
+            this.labelCenterOffset.Text = "(x, x)";
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 538);
+            this.Controls.Add(this.labelCenterOffset);
+            this.Controls.Add(this.labelMousePos);
             this.Controls.Add(this.currFrameLabel);
             this.Controls.Add(this.pictureBox);
             this.DoubleBuffered = true;
@@ -81,5 +103,7 @@
         public System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Label currFrameLabel;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label labelMousePos;
+        private System.Windows.Forms.Label labelCenterOffset;
     }
 }
